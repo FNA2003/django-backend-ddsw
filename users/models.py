@@ -4,9 +4,9 @@ from django.contrib.auth.hashers import make_password, check_password
 # Create your models here.
 class Users(models.Model):
     user_id = models.AutoField(primary_key=True)
-    name = models.TextField() # dbdiagram -> varchar <=> text
-    email = models.EmailField(unique=True)
-    password = models.TextField()
+    name = models.TextField(null=False) # dbdiagram -> varchar <=> text
+    email = models.EmailField(null=False, unique=True)
+    password = models.TextField(null=False)
 
 
     # Métodos para hashear y comprobar la contraseña
