@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -79,6 +80,19 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+""" Para luego usar PostgreSQL:
+DATABASES = {
+    'default': {
+        'ENGINE' : 'django.db.backends.postgresql',
+        'NAME' : '<nombre de bdd>',
+        'USER' : '<usuario con acceso a la bdd>',
+        'PASSWORD' : '<contraseña de la bdd>',
+        'HOST' : '<localhost ó IP de la bdd>',
+        'PORT' : '<puerto de postgresql>'
+    }
+}
+"""
 
 
 # Password validation
