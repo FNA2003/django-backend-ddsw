@@ -13,6 +13,7 @@ class Projects(models.Model):
     description = models.TextField(null=True)
     organization_fk = models.ForeignKey("organizations.Organizations",
                                         on_delete=models.CASCADE,
+                                        null=True,
                                         # Organization.objects.get(id=1).projects para obtener los proyectos de esta
                                         related_name="projects")
     # Nota: "tipe" fue escrito así para evitar la palabra reservada type()

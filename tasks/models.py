@@ -15,9 +15,11 @@ class Tasks(models.Model):
                                    related_name="tasks")
     
     asigned_groups_fk = models.ManyToManyField("groups.Groups",
+                                               blank=True,
                                                # related_name => Groups.objects.get(id=x).asigned_tasks_group.all()
                                                related_name="asigned_tasks_group")
     asigned_users_fk = models.ManyToManyField("users.Users",
+                                              blank=True,
                                               # related_name => Users.objects.get(id=x).asigned_tasks_user.all()
                                               related_name="asigned_tasks_user")
     
