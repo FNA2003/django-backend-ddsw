@@ -1,0 +1,21 @@
+# Distribución
+.dist/
+
+# Ignorar carpetas comunes en todas las apps
+*/migrations/
+*/__pycache__/
+*/__init__.py
+
+# Archivos compilados y temporales
+*.pyc
+*.pyo
+*.log
+
+# Entornos virtuales
+venv/
+env/
+.env
+
+# Configuración de IDEs
+.vscode/
+.idea/

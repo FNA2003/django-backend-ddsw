@@ -4,7 +4,7 @@ from django.db import models
 
 class Groups(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.TextField(max_length=16)
+    name = models.CharField(max_length=16)
     description = models.TextField(blank=True, null=True)
     organization_fk = models.ForeignKey("organizations.Organizations",
                                         on_delete=models.CASCADE,

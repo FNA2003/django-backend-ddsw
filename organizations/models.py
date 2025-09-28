@@ -4,7 +4,7 @@ import datetime
 # Por defecto: null=False y blank=False
 class Organizations(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.TextField(max_length=16)
+    name = models.CharField(max_length=16)
     description = models.TextField(null=True, blank=True)
     creation_date = models.DateField(default=datetime.date.today)
 

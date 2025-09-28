@@ -12,10 +12,10 @@ import datetime
 # Por defecto: null=False y blank=False
 class Users(AbstractBaseUser):
     id = models.AutoField(primary_key=True)
-    username = models.TextField(max_length=32)
+    username = models.CharField(max_length=32)
     email = models.EmailField(unique=True, max_length=32)
-    first_name = models.TextField(max_length=16, null=True, blank=True)
-    last_name = models.TextField(max_length=16, null=True, blank=True)
+    first_name = models.CharField(max_length=16, null=True, blank=True)
+    last_name = models.CharField(max_length=16, null=True, blank=True)
     organization_fk = models.ForeignKey("organizations.Organizations", 
                                         on_delete=models.SET_NULL, 
                                         null=True,
@@ -35,10 +35,12 @@ class Invitations(models.Model):
     receiver_fk = models.ForeignKey(Users,
                                     null=True,
                                     on_delete=models.CASCADE,
-                                    # Users.objects.get(id=x).invitations.all()
-                                    related_name="invitations")
+                                    # Users.objects.get(id=x).received_invitations.all()
+                                    related_name="received_invitations")
     sender_fk = models.ForeignKey(Users,
-                                  on_delete=models.CASCADE) # Cascade por si se borró una cuenta que spammeaba
+                                  on_delete=models.CASCADE, # Cascade por si se borró una cuenta que spammeaba
+                                  # Users.objects.get(id=x).sended_invitations.all()
+                                  related_name="sended_invitations") 
     state = models.CharField(max_length=1,
                              choices=InvitationsEnum,
                              default=InvitationsEnum.PENDING)

@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     "organizations",
     "projects",
     "tasks",
-    "groups"
+    "groups",
+    "dates"
 ]
 
 MIDDLEWARE = [
