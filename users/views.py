@@ -55,7 +55,7 @@ class UserLoginAPIView(APIView):
         username = request.data["user"]
         password = request.data["password"]
 
-        pass
+        raise Exception(NotImplemented)
     
 """ Registrar un usuario
     POST: .../api/users/register/
