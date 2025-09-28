@@ -1,9 +1,7 @@
-import datetime
-
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 
-from organizations.models import Organizations
+import datetime
 
 """
     AbstractBaseUser ya tiene:
@@ -18,7 +16,7 @@ class Users(AbstractBaseUser):
     email = models.EmailField(unique=True, max_length=32)
     first_name = models.TextField(max_length=16, null=True, blank=True)
     last_name = models.TextField(max_length=16, null=True, blank=True)
-    organization_fk = models.ForeignKey(Organizations, 
+    organization_fk = models.ForeignKey("organizations.Organizations", 
                                         on_delete=models.SET_NULL, 
                                         null=True,
                                         related_name="users")# related_name permite acceder desde la organización haciendo:
@@ -31,11 +29,12 @@ class InvitationsEnum(models.TextChoices):
 
 class Invitations(models.Model):
     id = models.AutoField(primary_key=True)
-    organization_fk = models.ForeignKey(Organizations,
+    organization_fk = models.ForeignKey("organizations.Organizations",
                                         on_delete=models.CASCADE)
     receiver_email = models.EmailField()
     receiver_fk = models.ForeignKey(Users,
                                     null=True,
+                                    on_delete=models.CASCADE,
                                     # Users.objects.get(id=x).invitations.all()
                                     related_name="invitations")
     sender_fk = models.ForeignKey(Users,

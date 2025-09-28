@@ -1,8 +1,5 @@
-import datetime
 from django.db import models
-from projects.models import Projects
-from groups.models import Groups
-from users.models import Users
+import datetime
 
 # Por defecto: null=False y blank=False
 class Tasks(models.Model):
@@ -12,16 +9,16 @@ class Tasks(models.Model):
     previous_task_fd = models.ForeignKey("self",
                                          null=True,
                                          on_delete=models.SET_NULL)
-    project_fk = models.ForeignKey(Projects,
+    project_fk = models.ForeignKey("projects.Projects",
                                    on_delete=models.CASCADE,
                                    # related_name => Projects.objects.get(id=x).tasks...
                                    related_name="tasks")
     
-    asigned_groups_fk = models.ManyToManyField(Groups,
+    asigned_groups_fk = models.ManyToManyField("groups.Groups",
                                                null=True,
                                                # related_name => Groups.objects.get(id=x).asigned_tasks_group.all()
                                                related_name="asigned_tasks_group")
-    asigned_users_fk = models.ManyToManyField(Users,
+    asigned_users_fk = models.ManyToManyField("users.Users",
                                               null=True,
                                               # related_name => Users.objects.get(id=x).asigned_tasks_user.all()
                                               related_name="asigned_tasks_user")

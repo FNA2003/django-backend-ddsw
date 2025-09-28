@@ -1,6 +1,5 @@
-import datetime
 from django.db import models
-from organizations.models import Organizations
+import datetime
 
 # Por defecto: null=False y blank=False
 
@@ -12,7 +11,7 @@ class Projects(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.TextField(max_length=32)
     description = models.TextField(null=True)
-    organization_fk = models.ForeignKey(Organizations,
+    organization_fk = models.ForeignKey("organizations.Organizations",
                                         on_delete=models.CASCADE,
                                         # Organization.objects.get(id=1).projects para obtener los proyectos de esta
                                         related_name="projects")

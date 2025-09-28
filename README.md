@@ -21,6 +21,6 @@
 * *`groups`*
   - CRUD de grupos dentro de una organización
 
-* *`calander`*
+* *`date`*
   - Muestra las tareas del mes de un usuario (personales y, organizaciones si está asignado)
   - _NOTA:_ Se piensa usar esta app para disminuir la lógica de las otras aplicaciones.
