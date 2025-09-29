@@ -21,7 +21,7 @@ class PermissionsOrganization(models.Model):
                                         on_delete=models.CASCADE)
     # Nota: Usamos OneToOneField y no ForeingKey por que la lógica
     # de nuestro negocio solo nos deja tener un usuario por organización
-    user_fk = models.OneToOneField("users.Users",
+    user_fk = models.OneToOneField("access.Users",
                                    on_delete=models.CASCADE,
     # El related_name nos permite: Users.objects.get(id=1).org_perm_user <= De acá sacaríamos los permisos del usuario
                                    related_name="org_perm_user")

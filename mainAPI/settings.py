@@ -22,6 +22,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-cr2as^gs&^#1wph&7l5kjpl)*b2l$am=#z!#xdf8909^@r4x&c'
 
+# Modelo que va a usar django como modelo principal (para la gestión de usuarios, sesiones, etc.)
+AUTH_USER_MODEL = "access.Users"
+
+# Vamos a trabajar usando JWT para sesiones con el front
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -40,7 +50,8 @@ INSTALLED_APPS = [
     'rest_framework',
 
     # Aplicaciones propias
-    "users",
+    "access",
+    "invitations",
     "organizations",
     "projects",
     "tasks",

@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 import datetime
 
@@ -18,7 +19,7 @@ class Tasks(models.Model):
                                                blank=True,
                                                # related_name => Groups.objects.get(id=x).asigned_tasks_group.all()
                                                related_name="asigned_tasks_group")
-    asigned_users_fk = models.ManyToManyField("users.Users",
+    asigned_users_fk = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                               blank=True,
                                               # related_name => Users.objects.get(id=x).asigned_tasks_user.all()
                                               related_name="asigned_tasks_user")

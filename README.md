@@ -1,9 +1,12 @@
 # APP's propuesta (Django):
-* *`users`*
+* *`access`*
     - Registro y login
     - Maneja autenticación y endpoints relacionados al usuario
-    - Manejo de Invitaciones (*__N.S.__*)
     - _Nota:_ Extiende el modelo `AbstractBaseUser`
+
+* *`invitations`*
+    - Maneja la búsqueda de invitaciones pendientes de un usuario loggeado
+    - Buscará las asignadas a este y, las que estén asignadas a su email (cuenta que no estuvo registrada)
 
 * *`organizations`*
   - CRUD de organizaciones
