@@ -10,7 +10,7 @@ from .serializers import UsersSerializer
 """ NOTA: Los JWT tienen la siguiente forma:
         {
         "access": "eyJ0eXAiOiJKV1QiLCJh... (token JWT en sí)",
-        "refresh": "eyJ0eXAiOiJKV1QiLCJh... (token de para 'recargar' sesión)"
+        "refresh": "eyJ0eXAiOiJKV1QiLCJh... (token para 'recargar' sesión)"
         }
 """
 
@@ -45,24 +45,3 @@ class RegisterAPI(APIView):
             "access":str(refresh.access_token),
             "refresh":str(refresh)
         }, status=200)
-
-
-
-""" 
-from rest_framework.permissions import IsAuthenticated
-
-class MiVista(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        user = request.user  # Este es el usuario autenticado por el token
-        return Response({"email": user.email})
-
-    {
-        "username":"El gran pepo",
-        "first_name":"Pepe",
-        "last_name":"Argento",
-        "email":"pepe@ejemplo.com",
-        "password":"123"
-    }
-"""
