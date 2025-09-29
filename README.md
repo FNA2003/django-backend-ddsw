@@ -7,6 +7,8 @@
 * *`invitations`*
     - Maneja la búsqueda de invitaciones pendientes de un usuario loggeado
     - Buscará las asignadas a este y, las que estén asignadas a su email (cuenta que no estuvo registrada)
+    - El usuario logeado (de una organización, con permisos de invitar) podrá invitar a una lista de usuarios por mail (estén registrados o no).
+    - Aceptar o rechazar invitaciones recibidas.
 
 * *`organizations`*
   - CRUD de organizaciones

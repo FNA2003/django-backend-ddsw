@@ -36,5 +36,6 @@ class PermissionsOrganization(models.Model):
     can_create_tasks       = models.BooleanField(default=False)
     can_create_projects    = models.BooleanField(default=False)
     can_edit_projects      = models.BooleanField(default=False)
+    can_invitate           = models.BooleanField(default=False)
     can_assign_permissions = models.BooleanField(default=False)
     can_close_organization = models.BooleanField(default=False)
