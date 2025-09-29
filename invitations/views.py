@@ -39,3 +39,24 @@ class ListInvitationsAPI(APIView):
         serializer = InvitationsSerializer(invitaciones, many=True)
 
         return Response({"data":serializer.data}, status=200)
+    
+
+
+""" Se espera un body como:
+
+    {
+        "emails": [
+            "pepito@email.com",
+            "hola@email.com"
+        ]
+    }
+"""
+class SendInvitationsAPI(APIView):
+    #permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        datos = request.data.get("emails") # Se recibirá una lista de emails para invitar
+
+        for email in datos:
+            print(email)
