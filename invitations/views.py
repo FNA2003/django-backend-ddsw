@@ -6,6 +6,7 @@ from django.db.models import Q
 
 from .models import Invitations, InvitationsEnum
 from .serializers import InvitationsSerializer
+from access.models import Users
 
 
 """ NOTA: Para el acceso hacer:
@@ -42,21 +43,70 @@ class ListInvitationsAPI(APIView):
     
 
 
-""" Se espera un body como:
+""" Se espera un request como:
 
-    {
-        "emails": [
-            "pepito@email.com",
-            "hola@email.com"
+    fetch('http://localhost:8000/api/invitations/send/', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + access
+    },
+    body: JSON.stringify({
+        emails: [
+            "franco@email.com", 
+            "ejemplo@email.com", 
+            "pepe@email.com",
+            "no_existo@email.com"
         ]
-    }
+    })
+    })
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+    .catch((error) => console.error('Error:', error));
 """
 class SendInvitationsAPI(APIView):
-    #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        user = request.user
-        datos = request.data.get("emails") # Se recibirá una lista de emails para invitar
+        datos = request.data.get("emails", []) # Se recibirá una lista de emails para invitar
 
-        for email in datos:
-            print(email)
+        # Acá verificamos si pertenece a una organización, si no es así, no puede invitar a nadie
+        # TODO: Si se agregarán permisos, se deberá verificar sobre los permisos directamente
+        # TOFIX: Un usuario no se podría invitar a si mismo...
+        if request.user.organization_fk == None:
+            return Response({"error":"Usuario sin organización"}, status=401)
+
+        # Usuarios que ya existen
+        users = Users.objects.filter(email__in=datos)
+        emails_existentes = set(users.values_list("email", flat=True))
+        
+        # Emails que no están registrados
+        emails_sRegistrar = set(datos) - emails_existentes
+
+        
+        # Preparamos los objetos "Invitations"
+        invitaciones_data = []
+
+        # Para usuarios registrados
+        for usuario in users:
+            invitaciones_data.append({
+                "receiver_email": usuario.email,
+                "receiver_fk": usuario.id,
+                "sender_fk": request.user.id,
+                "organization_fk": request.user.organization_fk.id
+            })
+
+        # Para emails no registrados
+        for email in emails_sRegistrar:
+            invitaciones_data.append({
+                "receiver_email": email,
+                "sender_fk": request.user.id,
+                "organization_fk": request.user.organization_fk.id
+            })
+        
+        serializer = InvitationsSerializer(data=invitaciones_data, many=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message":"Invitaciones enviadas"}, status=200)
+        else:
+            return Response({"error":serializer.errors}, status=400)

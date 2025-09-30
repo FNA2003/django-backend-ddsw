@@ -6,5 +6,6 @@ urlpatterns = [
     path("list/", ListInvitationsAPI.as_view()),
 
     path("send/", SendInvitationsAPI.as_view())
-    # Otro para manejar aceptarlas o rechazarlas con post o delete path("handle/"
+
+    # TODO: Otro path para manejar aceptarlas o rechazarlas con post o delete path("handle/"
 ]
