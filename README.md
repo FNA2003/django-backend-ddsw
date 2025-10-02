@@ -9,6 +9,7 @@
     - Buscará las asignadas a este y, las que estén asignadas a su email (cuenta que no estuvo registrada)
     - El usuario logeado (de una organización, con permisos de invitar) podrá invitar a una lista de usuarios por mail (estén registrados o no).
     - Aceptar o rechazar invitaciones recibidas.
+    - _TODO:_ Eliminar campo de sender_fk del modelo 
 
 * *`organizations`*
   - CRUD de organizaciones
