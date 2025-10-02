@@ -1,4 +1,7 @@
 # APP's propuesta (Django):
+---
+| [Modelo de las tablas](https://dbdiagram.io/d/DdS-Diagrama-de-BDD-68d8832ad2b621e422367423)
+---
 * *`access`*
     - Registro y login
     - Maneja autenticación y endpoints relacionados al usuario

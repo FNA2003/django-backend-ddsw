@@ -27,13 +27,9 @@ class ListInvitationsAPI(APIView):
     def get(self, request):
         usuario = request.user # Obtenemos el usuario autentificado
 
-        # Hacemos una ÚNICA query para buscar las invitaciones pendientes
+        # Hacemos una query para buscar las invitaciones pendientes
         invitaciones = Invitations.objects.filter(
-            # Esta primera sub-query buscará a los usuarios que se les envió 
-            # la invitación por mail pero no se les vinculó (no existía el usuario)
-            Q(receiver_email=usuario.email, receiver_fk__isnull=True) |
-            # Y, esta otra sub-query busca solamente las invitaciones especificadas a un usuario
-            Q(receiver_email=usuario.email, receiver_fk=usuario.id),
+            receiver_email=usuario.email,
             state=InvitationsEnum.PENDING
         )
 
@@ -72,37 +68,19 @@ class SendInvitationsAPI(APIView):
 
         # Acá verificamos si pertenece a una organización, si no es así, no puede invitar a nadie
         # TODO: Si se agregarán permisos, se deberá verificar sobre los permisos directamente
-        # TOFIX: Un usuario no se podría invitar a si mismo...
         if request.user.organization_fk == None:
             return Response({"error":"Usuario sin organización"}, status=401)
 
-        # Usuarios que ya existen
-        users = Users.objects.filter(email__in=datos)
-        emails_existentes = set(users.values_list("email", flat=True))
-        
-        # Emails que no están registrados
-        emails_sRegistrar = set(datos) - emails_existentes
-
-        
         # Preparamos los objetos "Invitations"
         invitaciones_data = []
 
-        # Para usuarios registrados
-        for usuario in users:
-            invitaciones_data.append({
-                "receiver_email": usuario.email,
-                "receiver_fk": usuario.id,
-                "sender_fk": request.user.id,
-                "organization_fk": request.user.organization_fk.id
-            })
-
-        # Para emails no registrados
-        for email in emails_sRegistrar:
-            invitaciones_data.append({
-                "receiver_email": email,
-                "sender_fk": request.user.id,
-                "organization_fk": request.user.organization_fk.id
-            })
+        for email in datos:
+            if email != request.user.email:
+                invitaciones_data.append({
+                    "receiver_email": email,
+                    "sender_fk": request.user.id,
+                    "organization_fk": request.user.organization_fk.id
+                })
         
         serializer = InvitationsSerializer(data=invitaciones_data, many=True)
         if serializer.is_valid():

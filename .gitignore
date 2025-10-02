@@ -2,7 +2,6 @@
 .dist/
 
 # Ignorar carpetas comunes en todas las apps
-*/migrations/
 */__pycache__/
 */__init__.py
 
@@ -15,7 +14,15 @@
 venv/
 env/
 .env
+pyvenv.cfg
 
 # Configuración de IDEs
 .vscode/
 .idea/
+
+# Imports de python
+include/
+
+
+# Exceso
+mainAPI/db.sqlite3

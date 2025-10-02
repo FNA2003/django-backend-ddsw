@@ -32,7 +32,6 @@ class Users(AbstractBaseUser):
                                         blank=True,
                                         related_name="users")# related_name permite acceder desde la organización haciendo:
                                                              # Organizations.objects.get(id=1).users.all()
-    
     objects = UsersManager()         # Define cómo se crean y gestionan los usuarios
     USERNAME_FIELD = 'email'         # El email será el identificador ÚNICO para login
     REQUIRED_FIELDS = ['username']   # Además del email, se requiere el username al crear usuarios

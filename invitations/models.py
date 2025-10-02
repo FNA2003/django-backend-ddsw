@@ -12,11 +12,6 @@ class Invitations(models.Model):
     organization_fk = models.ForeignKey("organizations.Organizations",
                                         on_delete=models.CASCADE)
     receiver_email = models.EmailField()
-    receiver_fk = models.ForeignKey("access.Users",
-                                    null=True,
-                                    on_delete=models.CASCADE,
-                                    # Users.objects.get(id=x).received_invitations.all()
-                                    related_name="received_invitations")
     sender_fk = models.ForeignKey("access.Users",
                                   on_delete=models.CASCADE, # Cascade por si se borró una cuenta que spammeaba
                                   # Users.objects.get(id=x).sended_invitations.all()
