@@ -1,6 +1,10 @@
 # APP's propuesta (Django):
 ---
 | [Modelo de las tablas](https://dbdiagram.io/d/DdS-Diagrama-de-BDD-68d8832ad2b621e422367423)
+| Ejecutar:
+```
+pip install -r requirements.txt
+```
 ---
 * *`access`*
     - Registro y login
