@@ -26,6 +26,8 @@ class ListInvitationsAPI(APIView):
 
     def get(self, request):
         usuario = request.user # Obtenemos el usuario autentificado
+        if usuario.organization_fk:
+            return Response({"errors":"Ya perteneces a una organización"}, status=400)
 
         # Hacemos una query para buscar las invitaciones pendientes
         invitaciones = Invitations.objects.filter(
