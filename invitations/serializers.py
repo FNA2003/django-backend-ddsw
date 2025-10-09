@@ -12,3 +12,14 @@ class InvitationsSerializer(ModelSerializer):
     class Meta():
         model=Invitations
         fields="__all__"
+
+    def create(self, validated_data):
+        request = self.context.get('request')
+        organization = request.user.organization_fk
+        sender = request.user
+
+        return Invitations.objects.create(
+            organization_fk=organization,
+            sender_fk=sender,
+            **validated_data
+        )

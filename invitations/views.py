@@ -71,7 +71,7 @@ class SendInvitationsAPI(APIView):
         # Acá verificamos si pertenece a una organización, si no es así, no puede invitar a nadie
         # TODO: Si se agregarán permisos, se deberá verificar sobre los permisos directamente
         if request.user.organization_fk == None:
-            return Response({"error":"Usuario sin organización"}, status=401)
+            return Response({"error":"Usuario sin organización"}, status=400)
 
         # Preparamos los objetos "Invitations"
         invitaciones_data = []
@@ -79,12 +79,13 @@ class SendInvitationsAPI(APIView):
         for email in datos:
             if email != request.user.email:
                 invitaciones_data.append({
-                    "receiver_email": email,
-                    "sender_fk": request.user.id,
-                    "organization_fk": request.user.organization_fk.id
+                    "receiver_email": email
+                    # No incluimos sender_fk ni organization_fk aquí
                 })
-        
-        serializer = InvitationsSerializer(data=invitaciones_data, many=True)
+
+        # Pasamos el contexto con el request para que el serializer pueda acceder al usuario
+        # NOTA: Esto se hace por que el sender_fk y organization_fk son de lectura unicamente y se deben manejar en la clase
+        serializer = InvitationsSerializer(data=invitaciones_data, many=True, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response({"message":"Invitaciones enviadas"}, status=200)
