@@ -91,3 +91,34 @@ class SendInvitationsAPI(APIView):
             return Response({"message":"Invitaciones enviadas"}, status=200)
         else:
             return Response({"error":serializer.errors}, status=400)
+
+
+class HandleInvitation(APIView):
+    permission_classes = [IsAuthenticated]
+
+    # Rechazar invitación
+    def delete(self, request, id):
+        invitacion = Invitations.objects.get(id=id)
+        if invitacion.receiver_email != request.user.email:
+            return Response({"error":"Esta invitación no te fue asignada!"}, status=400)
+        
+        invitacion.state = InvitationsEnum.REFUSED
+        invitacion.save()
+
+        return Response({"success":"Se rechazó la invitación"}, status=200)
+
+    # Aceptar la invitación
+    def post(self, request, id):
+        invitacion = Invitations.objects.get(id=id)
+        user = request.user
+
+        if invitacion.receiver_email != user.email:
+            return Response({"error":"Esta invitación no te fue asignada!"}, status=400)
+        
+        invitacion.state = InvitationsEnum.ACCEPTED
+        invitacion.save()
+
+        user.organization_fk = invitacion.organization_fk
+        user.save()
+
+        return Response({"success":"Se aceptó la invitación"}, status=200)
