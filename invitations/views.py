@@ -66,7 +66,7 @@ class SendInvitationsAPI(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        datos = request.data.get("emails", []) # Se recibirá una lista de emails para invitar
+        datos = request.data # Se recibirá una lista de emails para invitar
 
         # Acá verificamos si pertenece a una organización, si no es así, no puede invitar a nadie
         # TODO: Si se agregarán permisos, se deberá verificar sobre los permisos directamente
